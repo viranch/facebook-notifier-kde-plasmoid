@@ -11,15 +11,29 @@
    </rect>
   </property>
   <layout class="QFormLayout" name="formLayout">
+   <property name="fieldGrowthPolicy">
+    <enum>QFormLayout::ExpandingFieldsGrow</enum>
+   </property>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
+     <property name="whatsThis">
+      <string>(To know your &quot;Feed URL&quot;, login to your facebook account, go to notifications box, and click on &quot;See All Notifications&quot;. On the page that opens, find the line &quot;Get notifications via:&quot; and copy the link pointed to by &quot;RSS&quot;. Paste it above and click OK)</string>
+     </property>
      <property name="text">
       <string>Feed URL:</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="kcfg_feed"/>
+    <widget class="QLineEdit" name="kcfg_feed">
+     <property name="toolTip">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;p align=&quot;left&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;(To know your &amp;quot;Feed URL&amp;quot;, login to your facebook account, go to notifications box, and click on &amp;quot;See All Notifications&amp;quot;. On the page that opens, find the line &amp;quot;Get notifications via:&amp;quot; and copy the link pointed to by &amp;quot;RSS&amp;quot;. Paste it above and click OK)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
