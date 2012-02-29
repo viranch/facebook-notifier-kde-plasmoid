@@ -14,7 +14,7 @@ Item {
         engine: "rss"
         connectedSources: [feed]
         interval: update_interval*60000
-        onNewData: plasmoid.showPopup(7500);
+        onDataChanged: plasmoid.showPopup(7500);
     }
 
     property string title: fbSource.data[feed]["title"]
