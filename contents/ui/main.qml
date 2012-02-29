@@ -85,7 +85,7 @@ Item {
             bottom: parent.bottom
             bottomMargin: 5
         }
-        model: feed!="" ? fbSource.data[feed]["items"] : ListModel{}
+        model: feed!="" ? fbSource.data[feed]["items"] : []
         spacing: -8
         clip: true
 
