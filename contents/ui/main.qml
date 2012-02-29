@@ -6,20 +6,28 @@ Item {
     id: notifier
     property int minimumWidth: 290
     property int minimumHeight: 340
-    property string feed
+    property string feed: ""
     property int update_interval: 1 //in minutes
 
     PlasmaCore.DataSource {
         id: fbSource
         engine: "rss"
-        connectedSources: [feed]
         interval: update_interval*60000
-        onDataChanged: plasmoid.showPopup(7500);
+        onSourceAdded: plasmoid.busy = true;
+        onDataChanged: {
+            plasmoid.showPopup(7500);
+            plasmoid.busy = false;
+        }
     }
 
-    property string title: fbSource.data[feed]["title"]
-    onTitleChanged: {
-        if (title!="") titleLabel.text = title;
+    Component.onCompleted: {
+        plasmoid.addEventListener('ConfigChanged', configChanged);
+    }
+
+    function configChanged() {
+        feed = plasmoid.readConfig("feed");
+        if (feed!="")
+            fbSource.connectedSources = feed;
     }
 
     PlasmaCore.DataSource {
@@ -30,6 +38,7 @@ Item {
 
     PlasmaComponents.Label {
         id: titleLabel
+        text: feed!="" ? fbSource.data[feed]["title"] : ""
         anchors {
             top: parent.top
             topMargin: 0
