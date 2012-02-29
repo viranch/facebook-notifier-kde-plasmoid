@@ -8,6 +8,7 @@ Item {
     property int minimumHeight: 340
     property string feed: ""
     property int update_interval: 1 //in minutes
+    property string last: ""
 
     PlasmaCore.DataSource {
         id: fbSource
@@ -15,7 +16,9 @@ Item {
         interval: update_interval*60000
         onSourceAdded: plasmoid.busy = true;
         onDataChanged: {
-            plasmoid.showPopup(7500);
+            new = data[feed]["items"][0]["description"];
+            if (new!=last)
+                plasmoid.showPopup(7500);
             plasmoid.busy = false;
         }
     }
