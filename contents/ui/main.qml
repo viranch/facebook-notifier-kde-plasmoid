@@ -17,8 +17,10 @@ Item {
         onSourceAdded: plasmoid.busy = true;
         onDataChanged: {
             new = data[feed]["items"][0]["description"];
-            if (new!=last)
+            if (new!=last) {
+                last = new;
                 plasmoid.showPopup(7500);
+            }
             plasmoid.busy = false;
         }
     }
