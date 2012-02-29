@@ -57,6 +57,14 @@ Item {
         height: lineSvg.elementSize("horizontal-line").height
     }
 
+    MouseArea {
+        anchors.fill: parent
+        anchors.margins: 0
+        hoverEnabled: true
+        onEntered: view.highlightItem.opacity = 0;
+        onExited: view.highlightItem.opacity = 0;
+    }
+
     ListView {
         id: view
         anchors {
@@ -64,28 +72,60 @@ Item {
             topMargin: 5
             left: parent.left
             right: scrollBar.visible ? scrollBar.left : parent.right
+            rightMargin: 5
             bottom: parent.bottom
+            bottomMargin: 5
         }
         model: fbSource.data[feed]["items"]
-        spacing: 5
+        spacing: -8
         clip: true
 
-        delegate: Row {
-            spacing: 5
+        delegate: Item {
+            width: view.width
+            height: container.height+20
 
-            Image {
-                id: icon
-                source: modelData["icon"]
-                anchors.verticalCenter: parent.verticalCenter
+            Row {
+                id: container
+                spacing: 5
+                anchors {
+                    top: parent.top
+                    topMargin: 8
+                    left: parent.left
+                    leftMargin: 5
+                    right: parent.right
+                    rightMargin: 5
+                }
+
+                Image {
+                    id: icon
+                    source: modelData["icon"]
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                PlasmaComponents.Label {
+                    id: label
+                    text: modelData["description"]
+                    width: parent.width-icon.paintedWidth-parent.spacing
+                    wrapMode: Text.WordWrap
+                }
             }
 
-            PlasmaComponents.Label {
-                id: label
-                text: modelData["description"]
-                width: view.width-icon.width-spacing
-                wrapMode: Text.WordWrap
-                onLinkActivated: opener.openUrl(link);
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: {
+                    view.currentIndex = index;
+                    view.highlightItem.opacity = 1;
+                }
+                onClicked: opener.openUrl(modelData["link"]);
             }
+        }
+
+        highlight: PlasmaCore.FrameSvgItem {
+            imagePath: "widgets/viewitem"
+            prefix: "hover"
+            opacity: 0
+            Behavior on opacity { NumberAnimation { duration: 250 } }
         }
     }
 
