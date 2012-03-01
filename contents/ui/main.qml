@@ -15,26 +15,30 @@ Item {
         interval: update_interval*60000
         onSourceAdded: plasmoid.busy = true;
 
-        property variant items: feed!="" ? data[feed]["items"] : 0
+        property variant items: feed!="" ? data[feed]["items"] : []
         onItemsChanged: {
-            plasmoid.showPopup(7500);
             plasmoid.busy = false;
+            if (items!=[])
+                titleLabel.text = items[0]["feed_title"];
+            plasmoid.showPopup(7500);
         }
     }
 
     Component.onCompleted: {
         plasmoid.addEventListener('ConfigChanged', configChanged);
+        titleLabel.text = "No feed available";
     }
 
     function configChanged() {
         feed = plasmoid.readConfig("feed");
-        if (feed!="")
+        if (feed!="") {
+            titleLable.text = "Fetching notifications...";
             fbSource.connectedSources = feed;
+        }
     }
 
     PlasmaComponents.Label {
         id: titleLabel
-        text: feed!="" ? fbSource.data[feed]["sources"]["feed_title"] : ""
         anchors {
             top: parent.top
             topMargin: 0
