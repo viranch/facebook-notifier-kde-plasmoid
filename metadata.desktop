@@ -6,6 +6,7 @@ Icon=applications-internet
 X-Plasma-API=declarativeappletscript
 X-Plasma-MainScript=ui/main.qml
 X-Plasma-DefaultSize=290,340
+X-Plasma-RequiredExtensions=LaunchApp
 
 X-KDE-PluginInfo-Author=Viranch Mehta
 X-KDE-PluginInfo-Email=viranch.mehta@gmail.com

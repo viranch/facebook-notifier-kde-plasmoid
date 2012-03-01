@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 import org.kde.plasma.core 0.1 as PlasmaCore
 import org.kde.plasma.components 0.1 as PlasmaComponents
 
@@ -8,19 +8,16 @@ Item {
     property int minimumHeight: 340
     property string feed: ""
     property int update_interval: 1 //in minutes
-    property string last: ""
 
     PlasmaCore.DataSource {
         id: fbSource
         engine: "rss"
         interval: update_interval*60000
         onSourceAdded: plasmoid.busy = true;
-        onDataChanged: {
-            new = data[feed]["items"][0]["description"];
-            if (new!=last) {
-                last = new;
-                plasmoid.showPopup(7500);
-            }
+
+        property variant items: feed!="" ? data[feed]["items"] : 0
+        onItemsChanged: {
+            plasmoid.showPopup(7500);
             plasmoid.busy = false;
         }
     }
@@ -35,15 +32,9 @@ Item {
             fbSource.connectedSources = feed;
     }
 
-    PlasmaCore.DataSource {
-        id: opener
-        engine: "executable"
-        function openUrl(link) { connectSource("kde-open \""+link+"\""); }
-    }
-
     PlasmaComponents.Label {
         id: titleLabel
-        text: feed!="" ? fbSource.data[feed]["title"] : ""
+        text: feed!="" ? fbSource.data[feed]["sources"]["feed_title"] : ""
         anchors {
             top: parent.top
             topMargin: 0
@@ -90,7 +81,10 @@ Item {
             bottom: parent.bottom
             bottomMargin: 5
         }
-        model: feed!="" ? fbSource.data[feed]["items"] : []
+        model: PlasmaCore.DataModel {
+            dataSource: fbSource
+            keyRoleFilter: "items"
+        }
         spacing: -8
         clip: true
 
@@ -112,13 +106,13 @@ Item {
 
                 Image {
                     id: icon
-                    source: modelData["icon"]
+                    source: model["icon"]
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
                 PlasmaComponents.Label {
                     id: label
-                    text: modelData["description"]
+                    text: model["description"]
                     width: parent.width-icon.paintedWidth-parent.spacing
                     wrapMode: Text.WordWrap
                 }
@@ -131,7 +125,7 @@ Item {
                     view.currentIndex = index;
                     view.highlightItem.opacity = 1;
                 }
-                onClicked: opener.openUrl(modelData["link"]);
+                onClicked: plasmoid.openUrl(model["link"]);
             }
         }
 
