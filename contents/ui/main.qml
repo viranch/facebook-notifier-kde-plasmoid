@@ -16,7 +16,8 @@ Item {
         onSourceAdded: plasmoid.busy = true;
         property string lastItem
         onNewData: {
-            titleLabel.text = data["sources"][0]["feed_title"];
+            var title = data["title"];
+            if (title!="") titleLabel.text = title;
             plasmoid.busy = false;
             var newItem = data["items"][0]["title"];
             if (newItem!=lastItem) {
