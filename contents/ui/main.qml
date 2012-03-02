@@ -14,7 +14,6 @@ Item {
         id: fbSource
         engine: "rss"
         interval: update_interval*60000
-        onSourceAdded: plasmoid.busy = true;
         property string lastItem
         onNewData: {
             var title = data["title"];
@@ -35,9 +34,10 @@ Item {
 
     function configChanged() {
         var url = plasmoid.readConfig("feed");
-        notifier.showTimeStamps = plasmoid.readConfig("time_stamps");
+        showTimeStamps = plasmoid.readConfig("time_stamps");
         if (url!="" && url!=feedUrl) {
             feedUrl = url;
+            plasmoid.busy = true;
             titleLabel.text = "Fetching notifications...";
             fbSource.connectedSources = [feedUrl];
         }
