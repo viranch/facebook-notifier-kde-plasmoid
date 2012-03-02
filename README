@@ -9,27 +9,20 @@ straight to facebook.com in your browser!
 
 =INSTALL=========
 
-Before you can use the plasmoid, make sure you have following
-dependencies:
+Make sure you are running the KDE SC version >= 4.8.
 
-Build deps:
-- KDE Development library (either from Git or precompiled package from your distribution)
-- Qt Development library (this is a dependency for above, and hence will mostly be installed automatically)
+First make the plasmoid package from source:
 
-Runtime deps:
-- KDE Plasma Workspace (to load the plasmoid on!)
+$ cd facebook-notifier-kde-plasmoid/
+$ zip -r ~/fbnotifier.plasmoid *
 
-To install the plasmoid, build (and install) by following
-commands:
-
-$ cd facebook-notifier/
-$ mkdir build && cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/usr .. && make
-$ su -c 'make install'
-$ kbuildsycoca4
-
-If there were no errors during build, the plasmoid should be
-ready to use and can be loaded from KDE Plasma Workspace as usual.
+This will make a plasmoid package in a file name 'fbnotifier.plasmoid'
+in your home directory.
+Now simply to go "Add Widgets" from the cashew in panel or desktop
+menu, and choose "Get New Widgets..." -> "Install Widget From Local File".
+Browse to the fbnotifier.plasmoid file and select it.
+The plasmoid will be installed (even if the it gives an error) and can
+now be added to the desktop/panel from the widgets list.
 
 =USAGE==========
 
