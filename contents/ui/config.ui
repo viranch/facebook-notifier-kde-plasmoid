@@ -35,6 +35,13 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="kcfg_time_stamps">
+     <property name="text">
+      <string>Show time-stamps</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

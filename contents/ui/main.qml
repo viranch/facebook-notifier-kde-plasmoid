@@ -7,6 +7,7 @@ Item {
     property int minimumWidth: 290
     property int minimumHeight: 340
     property string feedUrl: ""
+    property bool showTimeStamps: false
     property int update_interval: 1 //in minutes
 
     PlasmaCore.DataSource {
@@ -33,8 +34,10 @@ Item {
     }
 
     function configChanged() {
-        feedUrl = plasmoid.readConfig("feed");
-        if (feedUrl!="") {
+        var url = plasmoid.readConfig("feed");
+        notifier.showTimeStamps = plasmoid.readConfig("time_stamps");
+        if (url!="" && url!=feedUrl) {
+            feedUrl = url;
             titleLabel.text = "Fetching notifications...";
             fbSource.connectedSources = [feedUrl];
         }
@@ -47,6 +50,8 @@ Item {
         onEntered: view.highlightItem.opacity = 0;
         onExited: view.highlightItem.opacity = 0;
     }
+
+    PlasmaCore.Theme { id: theme }
 
     PlasmaComponents.Label {
         id: titleLabel
@@ -93,7 +98,6 @@ Item {
             dataSource: fbSource
             keyRoleFilter: "items"
         }
-        spacing: -8
         clip: true
 
         delegate: Notification {
@@ -103,12 +107,55 @@ Item {
             link: model["link"]
         }
 
+        section {
+            property: "time"
+            delegate: showTimeStamps ? sectionDelegate : empty
+        }
+
         highlight: PlasmaCore.FrameSvgItem {
             imagePath: "widgets/viewitem"
             prefix: "hover"
             opacity: 0
             Behavior on opacity { NumberAnimation { duration: 250 } }
         }
+    }
+
+    Component {
+        id: sectionDelegate
+
+        PlasmaComponents.Label {
+            x: 8
+            y: 8
+            text: getTimeStamp(section*1000);
+            opacity: 0.6
+            color: theme.textColor
+        }
+    }
+    Component {
+        id: empty
+        Item {}
+    }
+
+
+    function getTimeStamp(msecs) {
+        var pub = new Date(msecs);
+        var now = new Date();
+        var secs = Math.floor((now-pub)/1000);
+        var days = Math.floor(secs/(86400));
+        if (days==1) return "Yesterday";
+        else if (days>1) return days+" days ago";
+
+        var hours = Math.floor(secs/3600);
+        var mins = Math.floor((secs%3600)/60);
+
+        var l = "";
+        if (hours==1) l += "1 hour";
+        else if (hours>1) l += hours+" hours";
+        if (hours>0 && mins>0) l+= " and ";
+        if (mins==1) l += "1 minute";
+        if (mins>1) l += mins+" minutes";
+        else if (hours+mins==0) return secs+" seconds ago";
+        return l+" ago";
     }
 
     PlasmaComponents.ScrollBar {

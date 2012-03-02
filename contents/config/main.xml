@@ -9,6 +9,10 @@
     <entry name="feed" type="String">
       <label>URL of the feed</label>
     </entry>
+    <entry name="time_stamps" type="Bool">
+      <label>Whether to show the time_stamps</label>
+    </entry>
   </group>
+
 
 </kcfg>

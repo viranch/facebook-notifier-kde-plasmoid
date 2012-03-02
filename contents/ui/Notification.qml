@@ -5,7 +5,7 @@ Item {
     property alias icon: iconImg.source
     property alias text: description.text
     property string link
-    height: container.height+20
+    height: container.height+10
 
     Row {
         id: container
