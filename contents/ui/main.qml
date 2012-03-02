@@ -6,7 +6,7 @@ Item {
     id: notifier
     property int minimumWidth: 290
     property int minimumHeight: 340
-    property string feed: ""
+    property string feedUrl: ""
     property int update_interval: 1 //in minutes
 
     PlasmaCore.DataSource {
@@ -14,13 +14,15 @@ Item {
         engine: "rss"
         interval: update_interval*60000
         onSourceAdded: plasmoid.busy = true;
-
-        property variant items: feed!="" ? data[feed]["items"] : []
-        onItemsChanged: {
+        property string lastItem
+        onNewData: {
+            titleLabel.text = data["sources"][0]["feed_title"];
             plasmoid.busy = false;
-            if (items!=[])
-                titleLabel.text = items[0]["feed_title"];
-            plasmoid.showPopup(7500);
+            var newItem = data["items"][0]["title"];
+            if (newItem!=lastItem) {
+                lastItem = newItem;
+                plasmoid.showPopup(7500);
+            }
         }
     }
 
@@ -30,23 +32,34 @@ Item {
     }
 
     function configChanged() {
-        feed = plasmoid.readConfig("feed");
-        if (feed!="") {
-            titleLable.text = "Fetching notifications...";
-            fbSource.connectedSources = feed;
+        feedUrl = plasmoid.readConfig("feed");
+        print(feedUrl);
+        if (feedUrl!="") {
+            titleLabel.text = "Fetching notifications...";
+            fbSource.connectedSources = [feedUrl];
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        anchors.margins: 0
+        hoverEnabled: true
+        onEntered: view.highlightItem.opacity = 0;
+        onExited: view.highlightItem.opacity = 0;
     }
 
     PlasmaComponents.Label {
         id: titleLabel
         anchors {
             top: parent.top
-            topMargin: 0
-            left: parent.left
-            right: parent.right
+            horizontalCenter: parent.horizontalCenter
         }
-        horizontalAlignment: Text.AlignHCenter
         clip: true
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: plasmoid.openUrl("http://www.facebook.com/")
+        }
     }
 
     PlasmaCore.Svg {
@@ -59,19 +72,10 @@ Item {
         elementId: "horizontal-line"
         anchors {
             top: titleLabel.bottom
-            topMargin: 0
             left: parent.left
             right: parent.right
         }
         height: lineSvg.elementSize("horizontal-line").height
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        anchors.margins: 0
-        hoverEnabled: true
-        onEntered: view.highlightItem.opacity = 0;
-        onExited: view.highlightItem.opacity = 0;
     }
 
     ListView {
