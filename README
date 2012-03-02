@@ -11,18 +11,16 @@ straight to facebook.com in your browser!
 
 Make sure you are running the KDE SC version >= 4.8.
 
-First make the plasmoid package from source:
+Make and install the plasmoid package from source:
 
 $ cd facebook-notifier-kde-plasmoid/
-$ zip -r ~/fbnotifier.plasmoid *
+$ zip -r fbnotifier.plasmoid *
+$ plasmapkg -i fbnotifier.plasmoid
 
-This will make a plasmoid package in a file name 'fbnotifier.plasmoid'
-in your home directory.
-Now simply to go "Add Widgets" from the cashew in panel or desktop
-menu, and choose "Get New Widgets..." -> "Install Widget From Local File".
-Browse to the fbnotifier.plasmoid file and select it.
-The plasmoid will be installed (even if the it gives an error) and can
-now be added to the desktop/panel from the widgets list.
+The plasmoid is now installed and can now be added to the desktop/panel
+from the widgets list.
+
+The source directory can also be safely deleted.
 
 =USAGE==========
 
