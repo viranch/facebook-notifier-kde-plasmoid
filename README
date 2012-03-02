@@ -1,6 +1,12 @@
 This is a KDE plasmoid that shows facebook notifications
 from the RSS feed of notifications from your facebook account.
 
+It sits in the panel, and pops up if there is a new notification.
+Clicking on a notification will open the relevant facebook page
+in user's default browser.
+Fun-fact: Clicking on the title in the plasmoid will take you
+straight to facebook.com in your browser!
+
 =INSTALL=========
 
 Before you can use the plasmoid, make sure you have following
@@ -25,8 +31,42 @@ $ kbuildsycoca4
 If there were no errors during build, the plasmoid should be
 ready to use and can be loaded from KDE Plasma Workspace as usual.
 
+=USAGE==========
+
+After the plasmoid is added, go to "Facebook Notifier Settings" by
+right-clicking on the plasmoid, and enter your facebook account's
+RSS feed URL for notifications. To get the feed URL, open your facebook
+account in a browser, open your notifications and go to "See All
+Notifications". On the page that opens, find the line "Get notifications
+via:" and copy the link address of the link "RSS" on that line.
+Paste the URL in plasmoid's settings box and click OK. This is a
+one-time procedure (whenever you add the plasmoid) and the notifications
+will be synced on your desktop with an interval of one minute.
+
 =AUTHOR=========
 
 Name: Viranch Mehta
 Email: viranch.mehta@gmail.com
+
+=LICENSE========
+
+The following license applies to all of the content residing in the
+directory that contains this README:
+
+Copyright (C) 2012 by Viranch Mehta <viranch.mehta@gmail.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU Library General Public License as
+published by the Free Software Foundation; either version 2, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Library General Public License for more details
+
+You should have received a copy of the GNU Library General Public
+License along with this program; if not, write to the
+Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
