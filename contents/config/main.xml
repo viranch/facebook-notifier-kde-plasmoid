@@ -10,7 +10,10 @@
       <label>URL of the feed</label>
     </entry>
     <entry name="time_stamps" type="Bool">
-      <label>Whether to show the time_stamps</label>
+      <label>Whether to show the time stamps</label>
+    </entry>
+    <entry name="interval" type="Int">
+      <label>Refresh interval in minutes</label>
     </entry>
   </group>
 

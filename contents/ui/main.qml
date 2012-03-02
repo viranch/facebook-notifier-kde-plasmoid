@@ -35,6 +35,7 @@ Item {
     function configChanged() {
         var url = plasmoid.readConfig("feed");
         showTimeStamps = plasmoid.readConfig("time_stamps");
+        update_interval = plasmoid.readConfig("interval");
         if (url!="" && url!=feedUrl) {
             feedUrl = url;
             plasmoid.busy = true;
