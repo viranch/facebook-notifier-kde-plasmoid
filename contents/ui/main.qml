@@ -33,7 +33,6 @@ Item {
 
     function configChanged() {
         feedUrl = plasmoid.readConfig("feed");
-        print(feedUrl);
         if (feedUrl!="") {
             titleLabel.text = "Fetching notifications...";
             fbSource.connectedSources = [feedUrl];
@@ -96,45 +95,11 @@ Item {
         spacing: -8
         clip: true
 
-        delegate: Item {
+        delegate: Notification {
             width: view.width
-            height: container.height+20
-
-            Row {
-                id: container
-                spacing: 5
-                anchors {
-                    top: parent.top
-                    topMargin: 8
-                    left: parent.left
-                    leftMargin: 5
-                    right: parent.right
-                    rightMargin: 5
-                }
-
-                Image {
-                    id: icon
-                    source: model["icon"]
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                PlasmaComponents.Label {
-                    id: label
-                    text: model["description"]
-                    width: parent.width-icon.paintedWidth-parent.spacing
-                    wrapMode: Text.WordWrap
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: {
-                    view.currentIndex = index;
-                    view.highlightItem.opacity = 1;
-                }
-                onClicked: plasmoid.openUrl(model["link"]);
-            }
+            icon: model["icon"]
+            text: model["description"]
+            link: model["link"]
         }
 
         highlight: PlasmaCore.FrameSvgItem {
