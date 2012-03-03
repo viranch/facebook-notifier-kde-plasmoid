@@ -16,6 +16,9 @@ Item {
         interval: update_interval*60000
         property int lastTime
         onNewData: {
+            // the reason for choosing data["title"] over data["sources"][0]["feed_title"]
+            // is data["title"] contains the error string in case of any error, and title
+            // otherwise. so we need not check for errors and worry about showing them.
             var title = data["title"];
             if (title!="") titleLabel.text = title;
             plasmoid.busy = false;
