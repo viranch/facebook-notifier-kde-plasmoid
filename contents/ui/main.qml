@@ -14,14 +14,14 @@ Item {
         id: fbSource
         engine: "rss"
         interval: update_interval*60000
-        property string lastItem
+        property int lastTime
         onNewData: {
             var title = data["title"];
             if (title!="") titleLabel.text = title;
             plasmoid.busy = false;
-            var newItem = data["items"][0]["title"];
-            if (newItem!=lastItem) {
-                lastItem = newItem;
+            var time = data["items"][0]["time"];
+            if (time>lastTime) {
+                lastTime = time;
                 plasmoid.showPopup(7500);
             }
         }
