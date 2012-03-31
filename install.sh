@@ -1,2 +1,2 @@
 #!/bin/sh
-zip -r fbnotifier.plasmoid * && plasmapkg -u fbnotifier.plasmoid
+zip -r fbnotifier.plasmoid contents metadata.desktop README && plasmapkg -u fbnotifier.plasmoid
