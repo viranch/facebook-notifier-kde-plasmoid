@@ -9,6 +9,7 @@ Item {
     property string feedUrl: ""
     property bool showTimeStamps: false
     property int update_interval: 1 //in minutes
+    property bool shownFirstTime: false;
 
     PlasmaCore.DataSource {
         id: fbSource
@@ -24,6 +25,12 @@ Item {
             plasmoid.busy = false;
             var time = data["items"][0]["time"];
             if (time>lastTime) {
+                if (shownFirstTime) {
+                    plasmoid.status = "NeedsAttentionStatus";
+                } else {
+                    plasmoid.status = "PassiveStatus"
+                    shownFirstTime = true;
+                }
                 lastTime = time;
                 plasmoid.showPopup(7500);
             }
