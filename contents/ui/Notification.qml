@@ -37,6 +37,9 @@ Item {
             view.currentIndex = index;
             view.highlightItem.opacity = 1;
         }
-        onClicked: plasmoid.openUrl(link);
+        onClicked: {
+            plasmoid.openUrl(link);
+            plasmoid.status = "PassiveStatus"
+        }
     }
 }
